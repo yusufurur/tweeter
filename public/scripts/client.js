@@ -29,6 +29,15 @@ const tweetsData = [
   }
 ]
 
+$("#tweetForm").on("submit", function(event) {
+  event.preventDefault();
+  $.ajax("/tweets", {
+    method: "POST",
+    data: $(this).serialize()
+  })
+  console.log(event);
+})
+
 const createTweetElement = function(tweet) {
   let $tweet = $("<article>").addClass("tweet");
   const html = `
@@ -54,12 +63,8 @@ const createTweetElement = function(tweet) {
 };
 
 $(document).ready(function() {
+  loadTweets();
 
-  const tweetsContainer = $("#tweets-container").html("") 
-  for (let tweet of tweetsData) {
-    let tweetElement = createTweetElement(tweet)
-    tweetsContainer.prepend(tweetElement)
-  }
   // Test / driver code (temporary)
   // console.log($tweet); // to see what it looks like
   // $('#tweets-container').append($tweet); // to add it to the page so we can make sure it's got all the right elements, classes, etc.
@@ -68,8 +73,21 @@ $(document).ready(function() {
 
 const loadTweets = function() {
   $.get("/tweets/", function(newTweet) {
+    console.log("hello", newTweet);
     renderTweets(newTweet.reverse());
   });
 };
 
-loadTweets();
+const renderTweets = function(tweetsData) {
+  const tweetsContainer = $("#tweets-container").html("");
+  for (let tweet of tweetsData) {
+    let tweetElement = createTweetElement(tweet)
+    tweetsContainer.prepend(tweetElement)
+  }
+}
+
+// const renderTweets = $("#tweets-container").html("") 
+//   for (let tweet of tweetsData) {
+//     let tweetElement = createTweetElement(tweet)
+//     tweetsContainer.prepend(tweetElement)
+//   }
