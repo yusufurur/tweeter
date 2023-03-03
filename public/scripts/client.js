@@ -29,14 +29,11 @@ const tweetsData = [
   }
 ]
 
-$("#tweetForm").on("submit", function(event) {
-  event.preventDefault();
-  $.ajax("/tweets", {
-    method: "POST",
-    data: $(this).serialize()
-  })
-  console.log(event);
-})
+const escape = function (str) {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
 
 const createTweetElement = function(tweet) {
   let $tweet = $("<article>").addClass("tweet");
@@ -47,11 +44,11 @@ const createTweetElement = function(tweet) {
       <small>${tweet.user.handle}</small>
     </header>
     <div>
-      <p>${tweet.content.text}</p>
+      <p>${escape(tweet.content.text)}</p>
     </div>
     <hr />
     <footer>
-      <h2>10 days ago</h2>
+    ${timeago.format(tweet.created_at)}
       <div>
       <i class="fa-solid fa-flag"></i>
       <i class="fa-solid fa-retweet"></i>
@@ -63,6 +60,38 @@ const createTweetElement = function(tweet) {
 };
 
 $(document).ready(function() {
+  $("#tweetForm").on("submit", function(event) {
+    event.preventDefault();
+    console.log("clicked");
+    console.log($("#tweet-text").val().length)
+    const tweetArea = $("#tweet-text").val().length;
+    if (tweetArea === 0) {
+      alert("empty");
+      $(".error").text("Tweet Area cannot be empty");
+      $(".error").slideDown("slow")
+      $(".error").delay(4000).slideUp("slow");
+
+      return;
+    }
+    if (tweetArea > 140) {
+      $(".error").text("Tweet cannot be more than 140 characters‼️");
+      $(".error").slideDown("slow")
+      $(".error").delay(4000).slideUp("slow");
+
+      return;
+    }
+    let input = $("#tweet-text").val()
+    if (validateUserInput(input)) {
+      $.ajax("/tweets", {
+        method: "POST",
+        data: $(this).serialize()
+      }).then(response => {
+        loadTweets();
+        $('#tweet-text').val(''); 
+        }) 
+    } 
+    console.log(event);
+  })
   loadTweets();
 
   // Test / driver code (temporary)
@@ -85,6 +114,18 @@ const renderTweets = function(tweetsData) {
     tweetsContainer.prepend(tweetElement)
   }
 }
+
+const validateUserInput = (input) => {
+  if (input === "") {
+    alert("Tweet field cannot be left blank");
+    return false;
+  } else if (input.length > 140) {
+    alert("Tweet cannot be more than 140 characters.");
+    return false;
+  }
+
+  return true;
+};
 
 // const renderTweets = $("#tweets-container").html("") 
 //   for (let tweet of tweetsData) {
