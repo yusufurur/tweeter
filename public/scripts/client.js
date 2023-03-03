@@ -39,9 +39,13 @@ const createTweetElement = function(tweet) {
   let $tweet = $("<article>").addClass("tweet");
   const html = `
     <header>
-      <img class="tweet--avatar" src="${tweet.user.avatars}"> 
-      <h2>${tweet.user.name}</h2>
+      <div class="avatar-username">
+        <img class="tweet--avatar" src="${tweet.user.avatars}"> 
+         <h2>${tweet.user.name}</h2>
+      </div>
+      <p>
       <small>${tweet.user.handle}</small>
+      </p>
     </header>
     <div>
       <p>${escape(tweet.content.text)}</p>
@@ -66,7 +70,6 @@ $(document).ready(function() {
     console.log($("#tweet-text").val().length)
     const tweetArea = $("#tweet-text").val().length;
     if (tweetArea === 0) {
-      alert("empty");
       $(".error").text("Tweet Area cannot be empty");
       $(".error").slideDown("slow")
       $(".error").delay(4000).slideUp("slow");

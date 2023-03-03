@@ -3,6 +3,7 @@
   background-color: #f4f1ec;
   align-items: center;
   margin: 0 auto;
+  padding: 10px;
 }
 
 .new-tweet form {
@@ -33,10 +34,17 @@ div button {
   font-family: 'Bungee', cursive;
 }
 
-article header {
+.tweet header {
   display: flex;
   justify-content: space-between;
-  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.avatar-username {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 div p {
@@ -61,4 +69,21 @@ i:hover{
   color: red
   }
 
-  
+  .tweet--avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .tweet {
+    padding: 1rem;
+    box-shadow: 3px 3px;
+    margin-top: 20px;
+  }
+
+  .tweet:hover {
+    box-shadow: 5px 5px #008c8c;
+  }
+
+  #tweets-container {
+    margin-top: 40px;
+  }
