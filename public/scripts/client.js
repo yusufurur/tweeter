@@ -91,6 +91,7 @@ $(document).ready(function() {
       }).then(response => {
         loadTweets();
         $('#tweet-text').val(''); 
+        $('.counter').text('140');
         }) 
     } 
     console.log(event);
@@ -105,8 +106,7 @@ $(document).ready(function() {
 
 const loadTweets = function() {
   $.get("/tweets/", function(newTweet) {
-    console.log("hello", newTweet);
-    renderTweets(newTweet.reverse());
+    renderTweets(newTweet);
   });
 };
 
@@ -129,9 +129,3 @@ const validateUserInput = (input) => {
 
   return true;
 };
-
-// const renderTweets = $("#tweets-container").html("") 
-//   for (let tweet of tweetsData) {
-//     let tweetElement = createTweetElement(tweet)
-//     tweetsContainer.prepend(tweetElement)
-//   }

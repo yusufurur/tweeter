@@ -87,3 +87,7 @@ i:hover{
   #tweets-container {
     margin-top: 40px;
   }
+
+  .error {
+    color: red;
+  }
