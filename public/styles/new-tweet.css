@@ -49,6 +49,7 @@ div button {
 
 div p {
   margin: 0.5em 0;
+  overflow-wrap: break-word;
 }
 
 footer h2 {
@@ -91,3 +92,4 @@ i:hover{
   .error {
     color: red;
   }
+  
